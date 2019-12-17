@@ -1,5 +1,9 @@
 package com.kohutyan.gh_homework_5
 
-data class Weather (val speed: String,
-                    val desc: String,
-                    val temp: String)
+import org.json.JSONObject
+
+data class Weather(
+    val speed: JSONObject,
+    val desc: String,
+    val temp: String
+)

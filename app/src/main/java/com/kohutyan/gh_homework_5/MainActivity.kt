@@ -1,30 +1,25 @@
 package com.kohutyan.gh_homework_5
 
-import android.net.wifi.rtt.CivicLocationKeys
-import android.net.wifi.rtt.CivicLocationKeys.CITY
-import android.opengl.Visibility
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import java.net.URL
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.internal.notify
 import org.json.JSONObject
-import java.util.ArrayList
-import android.widget.ProgressBar as ProgressBar
+import java.net.URL
+import java.util.*
 
 open class MainActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         val weatherArray: ArrayList<Weather> = ArrayList()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         recyclerView_main.layoutManager = LinearLayoutManager(this)
         recyclerView_main.adapter = MainAdapter(weatherArray)
@@ -40,9 +35,9 @@ open class MainActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg params: String?): String {
             var response: String?
-            val CITY: String = "Cherkasy"
-            val COUNTRY: String = "UA"
-            val API: String = "a48d2d9cf4888e7eddf74f7a21666708"
+            val CITY = "Cherkasy"
+            val COUNTRY = "UA"
+            val API = "a48d2d9cf4888e7eddf74f7a21666708"
             response = try {
                 //api.openweathermap.org/data/2.5/forecast/daily?q={CivicLocationKeys.CITY},&cnt=7,&units=metric,&appid=$API
                 URL("api.openweathermap.org/data/2.5/weather?q={$CITY},{$COUNTRY}&units=metric&appid=$API").readText(
@@ -66,10 +61,13 @@ open class MainActivity : AppCompatActivity() {
                 val windSpeed = wind.getString("speed")
                 val weatherDescription = weather.getString("description")
                 val address = jsonObj.getString("name") + ", " + sys.getString("country")
+                val humidity = main.getString("humidity")
 
-                val weather2 = Weather(windSpeed, weatherDescription, temp)
+                val weather2 = Weather(main, weatherDescription, temp)
+                val wind2 = Weather(wind ,windSpeed, humidity)
 
                 weatherArray.add(weather2)
+                weatherArray.add(wind2)
 
 
             } catch (e: java.lang.Exception) {
