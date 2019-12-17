@@ -41,7 +41,7 @@ open class MainActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: String?): String {
             var response: String?
             val CITY: String = "Cherkasy"
-            val COUNTRY: String = "UKR"
+            val COUNTRY: String = "UA"
             val API: String = "a48d2d9cf4888e7eddf74f7a21666708"
             response = try {
                 //api.openweathermap.org/data/2.5/forecast/daily?q={CivicLocationKeys.CITY},&cnt=7,&units=metric,&appid=$API
