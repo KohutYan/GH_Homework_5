@@ -11,18 +11,23 @@ import java.net.URL
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.internal.notify
 import org.json.JSONObject
 import java.util.ArrayList
 import android.widget.ProgressBar as ProgressBar
 
 open class MainActivity : AppCompatActivity() {
 
+    companion object{
+        val weatherArray: ArrayList<Weather> = ArrayList()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         recyclerView_main.layoutManager = LinearLayoutManager(this)
-        recyclerView_main.adapter = MainAdapter()
+        recyclerView_main.adapter = MainAdapter(weatherArray)
         //fetchJson()
         weatherTask().execute()
     }
@@ -35,11 +40,12 @@ open class MainActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg params: String?): String {
             var response: String?
-            val CITY: String = "Cherkasy,ua"
+            val CITY: String = "Cherkasy"
+            val COUNTRY: String = "UKR"
             val API: String = "a48d2d9cf4888e7eddf74f7a21666708"
             response = try {
                 //api.openweathermap.org/data/2.5/forecast/daily?q={CivicLocationKeys.CITY},&cnt=7,&units=metric,&appid=$API
-                URL("https://api.openweathermap.org/data/2.5/weather?q=${CivicLocationKeys.CITY}&units=metric&appid=$API").readText(
+                URL("api.openweathermap.org/data/2.5/weather?q={$CITY},{$COUNTRY}&units=metric&appid=$API").readText(
                     Charsets.UTF_8
                 )
             } catch (e: Exception) {
@@ -51,8 +57,6 @@ open class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             try {
-                val weatherArray: ArrayList<Weather> = ArrayList()
-
                 val jsonObj = JSONObject(result)
                 val sys = jsonObj.getJSONObject("sys")
                 val main = jsonObj.getJSONObject("main")
@@ -66,6 +70,7 @@ open class MainActivity : AppCompatActivity() {
                 val weather2 = Weather(windSpeed, weatherDescription, temp)
 
                 weatherArray.add(weather2)
+
 
             } catch (e: java.lang.Exception) {
                 progressBar.visibility = View.GONE
