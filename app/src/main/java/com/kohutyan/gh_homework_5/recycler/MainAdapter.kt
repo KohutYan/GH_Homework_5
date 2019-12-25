@@ -1,10 +1,12 @@
-package com.kohutyan.gh_homework_5
+package com.kohutyan.gh_homework_5.recycler
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.kohutyan.gh_homework_5.R
+import com.kohutyan.gh_homework_5.Weather
 import kotlinx.android.synthetic.main.weather_row.view.*
 
 class MainAdapter(private val weatherItem: ArrayList<Weather>) : RecyclerView.Adapter<CustomViewHolder>() {
@@ -20,7 +22,6 @@ class MainAdapter(private val weatherItem: ArrayList<Weather>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        notifyDataSetChanged()
         holder.weather.text = weatherItem[position].toString()
     }
 
