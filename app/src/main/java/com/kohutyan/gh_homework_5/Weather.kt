@@ -6,5 +6,3 @@ data class Weather(
     val desc: String,
     val temp: String
 )
-
-data class Result (val results: List<Weather>)
